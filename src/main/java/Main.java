@@ -11,13 +11,13 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Main {
-    private static String dtsFileName = "E:/stock/DTS.xls";
-    private static String eaFileName = "E:/stock/EA.xls";
-    private static String eaPriceFileName = "E:/stock/ЕА prise.xls";
+    private static String dtsFileName = "src/test/DTS.xls";
+    private static String eaFileName = "src/test/EA.xls";
+    private static String eaPriceFileName = "src/test/ЕА prise.xls";
     private static String mkPriceFileName = "";
-    private static String mkFileName = "E:/stock/MK.xls";
+    private static String mkFileName = "src/test/MK.xls";
     private static String bkzPriceFileName = "";
-    private static String kpkzPriceFileName = "E:/stock/KPKZ.xls";
+    private static String kpkzPriceFileName = "src/test/KPKZ.xls";
 
 
     public static ArrayList<String> rezult = new ArrayList<String>();
@@ -135,104 +135,50 @@ public class Main {
     } // поиск в файле Энергоальянс
 
 
-//    public static void findMatchesKPKZ(String file, String request) throws IOException {//поиск в прайсе Кабельный завод
-//        HSSFWorkbook myExcelBook = new HSSFWorkbook(new FileInputStream(file));
+    public static void findMatchesKPKZ(String file, String request) throws IOException {//поиск в прайсе Кабельный завод
+        HSSFWorkbook myExcelBook = new HSSFWorkbook(new FileInputStream(file));
+        HSSFSheet myExcelSheet = myExcelBook.getSheetAt(0);
+        HSSFRow row;
+
+        for (int i = 0; i < myExcelSheet.getPhysicalNumberOfRows() ; i++) {
+            row = myExcelSheet.getRow(i);
+            String fullName = "";
+            String temp = "";
+
+            try {
+
+                fullName += row.getCell(0).getStringCellValue() + " ";
+
+                if((temp = row.getCell(3).getStringCellValue())!="")
+                fullName += temp + "x";
+
+                if((temp = row.getCell(5).getStringCellValue())!="")
+                    fullName += temp + "x";
+
+                if((temp = row.getCell(10).getStringCellValue())!="")
+                    fullName += "+" + temp + "x";
+
+                if((temp = row.getCell(12).getStringCellValue())!="")
+                    fullName += temp;
+// STOP_POINT
+
+
+if(fullName.contains(request))
+                System.out.println(fullName);
+
+//                if (type1.toUpperCase().contains(type.toUpperCase()) && c11.toUpperCase().contains(c1.toUpperCase()) && c21.toUpperCase().contains(c2.toUpperCase())) {
+//                    Double price = row.getCell(15).getNumericCellValue() / 1000;
 //
-////        System.out.println("----------------------------------------------------------");
-////        System.out.println("ПРАЙС КАБЕЛЬНЫЙ ЗАВОД" );
-//
-//        HSSFSheet myExcelSheet = myExcelBook.getSheetAt(0);
-//        HSSFRow row;
-//        String names[] = request.split("Х|\\+|\\ |\\х");
-//
-//        for(int i=0;i<names.length;i++) {
-//            System.out.println(names[i]);
-//        }
-//        String type;
-//        String c1;
-//        String c2;
-//        String c3;
-//        String c4;
-//
-//        switch (names.length){
-//
-//            case 1: type=names[0];
-//                c1="";
-//                c2="";
-//                c3="";
-//                c4="";
-//                break;
-//
-//            case 2: type=names[0];
-//                c1=names[1];
-//                c2="";
-//                c3="";
-//                c4="";
-//                break;
-//
-//            case 3: type=names[0];
-//                c1=names[1];
-//                c2=names[2];
-//                c3="";
-//                c4="";
-//                break;
-//
-//            case 4: type=names[0];
-//                c1=names[1];
-//                c2=names[2];
-//                c3=names[3];
-//                c4="";
-//                break;
-//
-//            case 5: type=names[0];
-//                c1=names[1];
-//                c2=names[2];
-//                c3=names[3];
-//                c4=names[4];
-//                break;
-//
-//            default: type="";
-//                c1="";
-//                c2="";
-//                c3="";
-//                c4="";
-//                break;
-//
-//        }
-//
-////        System.out.println("type " + type);
-////        System.out.println("c1 " + c1);
-////        System.out.println("c2 " + c2);
-////        System.out.println("c3 " + c3);
-////        System.out.println("c4 " + c4);
+//                    String answer = type1 + " " + c11 + "x" + c21 + "   " + String.format("%.2f", price) + " грн/м";
 //
 //
-//
-//        for (int i = 0; i < myExcelSheet.getPhysicalNumberOfRows() ; i++) {
-//            row = myExcelSheet.getRow(i);
-//            try {
-//                String type1 = row.getCell(0).getStringCellValue();
-//
-//
-//                double c11 = row.getCell(3).getNumericCellValue();
-//
-//
-//                String c21 = row.getCell(5).getStringCellValue();
-//                System.out.println(type1+" " + c11 + " " + c21);
-//
-////                if (type1.toUpperCase().contains(type.toUpperCase()) && c11.toUpperCase().contains(c1.toUpperCase()) && c21.toUpperCase().contains(c2.toUpperCase())) {
-////                    Double price = row.getCell(15).getNumericCellValue() / 1000;
-////
-////                    String answer = type1 + " " + c11 + "x" + c21 + "   " + String.format("%.2f", price) + " грн/м";
-////
-////
-////                    System.out.println(answer);
-////                    rezult.add(answer + " ПРАЙС КАБЕЛЬНЫЙ ЗАВОД");
-////                }
-//            } catch (IllegalStateException e) {
-//            } catch (NullPointerException e1) {
-//            }
-//        }
+//                    System.out.println(answer);
+//                    rezult.add(answer + " ПРАЙС КАБЕЛЬНЫЙ ЗАВОД");
+//                }
+            } catch (IllegalStateException e) {
+            } catch (NullPointerException e1) {
+            }
+        }
 //
 //  //         if (request.contains(" ")&& (request.toUpperCase().contains("Х"))) {
 ////                String request1 = request.substring(0, request.lastIndexOf(" "));
@@ -291,7 +237,7 @@ public class Main {
 ////
 ////            }
 //
-//} //поиск в прайсе Кабельный Завод
+} //поиск в прайсе Кабельный Завод
 
 
     public static void findMatchesMK(String file, String request) throws IOException{ //поиск в файле Мастер Кабель
@@ -469,10 +415,11 @@ public class Main {
                 if(action.equals("Enter")||(action.equals("Button"))){
                     String str = input.getText();
                     try{
-                        findMatchesDTS(dtsFileName, str);
-                        findMatchesEA(eaFileName, str);
-                        findMatchesInPriceEA(eaPriceFileName, str);
-                        findMatchesMK(mkFileName, str);
+                        //findMatchesDTS(dtsFileName, str);
+                       // findMatchesEA(eaFileName, str);
+                      // findMatchesInPriceEA(eaPriceFileName, str);
+                      //  findMatchesMK(mkFileName, str);
+                        findMatchesKPKZ(kpkzPriceFileName,str);
 
                         }
                     catch (FileNotFoundException e){
