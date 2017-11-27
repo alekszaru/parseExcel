@@ -23,16 +23,15 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="db812b41-ea0f-4f29-a376-2fb450617a0a">
-        <schema name="kables" object-types="table, view" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="db812b41-ea0f-4f29-a376-2fb450617a0a">
-      <console name="Connection To Kables" type="STANDARD"><![CDATA[select * from kable]]></console>
+      <console name="Connection To Kables" type="STANDARD"><![CDATA[insert into kable set]]></console>
     </connection>
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-list connection-id="db812b41-ea0f-4f29-a376-2fb450617a0a" dataset="kables.kable" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />

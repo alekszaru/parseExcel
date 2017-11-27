@@ -1,3 +1,4 @@
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -11,13 +12,13 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Main {
-    private static String dtsFileName = "src/test/DTS.xls";
-    private static String eaFileName = "src/test/EA.xls";
-    private static String eaPriceFileName = "src/test/≈¿ prise.xls";
+    private static String dtsFileName = "D://stock/DTS.xls";
+    private static String eaFileName = "D://stock/EA.xls";
+    private static String eaPriceFileName = "D://stock/≈¿ prise.xls";
     private static String mkPriceFileName = "";
-    private static String mkFileName = "src/test/MK.xls";
+    private static String mkFileName = "D://stock/MK.xls";
     private static String bkzPriceFileName = "";
-    private static String kpkzPriceFileName = "src/test/KPKZ.xls";
+    private static String kpkzPriceFileName = "D://stock/KPKZ.xls";
 
 
     public static ArrayList<String> rezult = new ArrayList<String>();
@@ -27,8 +28,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        SimpleGUI app = new SimpleGUI();
-        app.setVisible(true);
+//        SimpleGUI app = new SimpleGUI();
+//        app.setVisible(true);
+
+        findMatchesKPKZ(kpkzPriceFileName,"¿¬¬√ 3ı10");
 
     }
 
@@ -140,104 +143,52 @@ public class Main {
         HSSFSheet myExcelSheet = myExcelBook.getSheetAt(0);
         HSSFRow row;
 
-        for (int i = 0; i < myExcelSheet.getPhysicalNumberOfRows() ; i++) {
+        for (int i = 11; i < myExcelSheet.getPhysicalNumberOfRows() ; i++) {
             row = myExcelSheet.getRow(i);
             String fullName = "";
-            String temp = "";
 
             try {
 
-                fullName += row.getCell(0).getStringCellValue() + " ";
+                fullName+=((row.getCell(0).toString()!= null) ? row.getCell(0).toString() : "");
+                fullName+=((row.getCell(1).toString()!= null) ? row.getCell(1).toString()+" " : "");
+                fullName+=((row.getCell(3).toString()!= null) ? row.getCell(3).toString()+"ı" : "");
+                fullName+=((row.getCell(5).toString()!= null) ? row.getCell(5).toString() : "");
+                fullName+=((row.getCell(7).toString()!= null) ? "+"+row.getCell(7).toString()+"ı" : "");
+                fullName+=((row.getCell(9).toString()!= null) ? row.getCell(9).toString() : "");
 
-                if((temp = row.getCell(3).getStringCellValue())!="")
-                fullName += temp + "x";
+                fullName = fullName.replace(".0","");
+                fullName = fullName.replace("+ı", "");
+                fullName = fullName.replace(" ı ", "");
 
-                if((temp = row.getCell(5).getStringCellValue())!="")
-                    fullName += temp + "x";
+            } catch (IllegalStateException e){
 
-                if((temp = row.getCell(10).getStringCellValue())!="")
-                    fullName += "+" + temp + "x";
-
-                if((temp = row.getCell(12).getStringCellValue())!="")
-                    fullName += temp;
-// STOP_POINT
-
-
-if(fullName.contains(request))
-                System.out.println(fullName);
-
-//                if (type1.toUpperCase().contains(type.toUpperCase()) && c11.toUpperCase().contains(c1.toUpperCase()) && c21.toUpperCase().contains(c2.toUpperCase())) {
-//                    Double price = row.getCell(15).getNumericCellValue() / 1000;
-//
-//                    String answer = type1 + " " + c11 + "x" + c21 + "   " + String.format("%.2f", price) + " „Ì/Ï";
-//
-//
-//                    System.out.println(answer);
-//                    rezult.add(answer + " œ–¿…—  ¿¡≈À‹Õ€… «¿¬Œƒ");
-//                }
-            } catch (IllegalStateException e) {
-            } catch (NullPointerException e1) {
             }
+            catch (NullPointerException e5){
+
+            }
+
+            if (request.contains(" ")) {
+                String request1 = request.substring(0, request.lastIndexOf(" "));
+                String request2 = request.substring(request.lastIndexOf(" ") + 1);
+                if (fullName.toUpperCase().contains(request1.toUpperCase()) && fullName.toUpperCase().contains(request2.toUpperCase())) {
+                    Double price = row.getCell(15).getNumericCellValue() / 1000;
+                    fullName += " - " + String.format("%.2f",price) + " „Ì/Ï";
+                    System.out.println(fullName);
+                    rezult.add(fullName);
+                }
+            }
+
+            else{
+                if(fullName.toUpperCase().contains(request.toUpperCase())){
+                    Double price = row.getCell(15).getNumericCellValue() / 1000;
+                    fullName += " - " + String.format("%.2f",price) + " „Ì/Ï";
+                    System.out.println(fullName);
+                    rezult.add(fullName);
+                }
+            }
+
         }
-//
-//  //         if (request.contains(" ")&& (request.toUpperCase().contains("’"))) {
-////                String request1 = request.substring(0, request.lastIndexOf(" "));
-////                System.out.println("request1 " +request1);
-////                String request2 = request.substring(request.toUpperCase().lastIndexOf(" ")+1);
-////                System.out.println("request2 " +request2);
-////                String request3 = request.substring(request.toUpperCase().indexOf("X")+1);
-////                System.out.println("request3 "+ request3);
-////
-////                 for (int i = 0; i < myExcelSheet.getPhysicalNumberOfRows() ; i++) {
-////                        row = myExcelSheet.getRow(i);
-////                        try {
-////                            String name = row.getCell(0 ).getStringCellValue();
-////
-////                            String name2 = row.getCell(3 ).getStringCellValue();
-////
-////                            String name3 = row.getCell(5).getStringCellValue();
-////
-////                            if (name.toUpperCase().contains(request1.toUpperCase()) && request2.toUpperCase().contains(name2.toUpperCase())&& request2.toUpperCase().contains(name2.toUpperCase())) {
-////                                Double price = row.getCell(15 ).getNumericCellValue()/1000;
-////
-////                                   String answer = name + " " + name2+ "x"+name3+ "   " + String.format("%.2f", price) + " „Ì/Ï";
-////
-////
-////                                System.out.println(answer);
-////                                rezult.add(answer+ " œ–¿…—  ¿¡≈À‹Õ€… «¿¬Œƒ");
-////                            }
-////                        } catch (IllegalStateException e) {  }
-////                        catch (NullPointerException e1){  }
-////                 }
-////
-// //   }
-//
-////            else{
-////
-////                  for (int i = 11; i < myExcelSheet.getPhysicalNumberOfRows() ; i++) {
-////                        row = myExcelSheet.getRow(i);
-////                        try {
-////                            String name =row.getCell(0 ).getStringCellValue();
-////                            String name2 =row.getCell(3 ).getStringCellValue();
-////                            String name3 =row.getCell(5 ).getStringCellValue();
-////
-////                            if (name.toUpperCase().contains(request.toUpperCase()) ) {
-////                                Double price = row.getCell(15 ).getNumericCellValue()/1000;
-////
-////                                String answer = name + " " + name2+ "x"+name3+ "   " + String.format("%.2f", price) + " „Ì/Ï";
-////
-////                                //System.out.println(answer);
-////                                rezult.add(answer + "œ–¿…—  ¿¡≈À‹Õ€… «¿¬Œƒ");
-////                            }
-////                        } catch (IllegalStateException e) {
-////                        }
-////                        catch (NullPointerException e1){
-////                        }
-////                  }
-////
-////            }
-//
-} //ÔÓËÒÍ ‚ Ô‡ÈÒÂ  ‡·ÂÎ¸Ì˚È «‡‚Ó‰
+    } //ÔÓËÒÍ ‚ Ô‡ÈÒÂ  ‡·ÂÎ¸Ì˚È «‡‚Ó‰
 
 
     public static void findMatchesMK(String file, String request) throws IOException{ //ÔÓËÒÍ ‚ Ù‡ÈÎÂ Ã‡ÒÚÂ  ‡·ÂÎ¸

@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class DTSfile implements ExcelFile {
+public class DTSfile {
     private static final String file = "D://stock/DTS.xls";
     private static final ArrayList<String> rezult = new ArrayList<String>();
 
